@@ -1,0 +1,23 @@
+[deps]
+ncurses
+
+[main]
+filesize=1439293
+sha512=847cc9ac0af170798abd4725f7dc2ec74d4931fb761b58836d4016d36da5657176bd8cdcdae02bc08438b18e8ce2433eb3340ec2503630fd2992e83ba06adf42
+
+[mirrors]
+ftp://ftp.cs.pdx.edu/pub/elvis/elvis-2.2_0.tar.gz
+
+[build]
+patch < $K/elvis-destdir.patch || exit 1
+CC="$CC -static" ./configure --prefix='' linux || exit 1
+make -j$MAKE_THREADS || exit 1
+make DESTDIR="$butch_install_dir" install || exit 1
+
+#manually isntall man pages
+mkdir -p "$butch_install_dir/share/man/man1"
+cp doc/elvis.man "$butch_install_dir/share/man/man1/elvis.1"
+cp doc/elvfmt.man "$butch_install_dir/share/man/man1/elvfmt.1"
+cp doc/elvtags.man "$butch_install_dir/share/man/man1/elvtags.1"
+cp doc/ctags.man "$butch_install_dir/share/man/man1/ctags.1"
+cp doc/ref.man "$butch_install_dir/share/man/man1/ref.1"
