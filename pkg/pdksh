@@ -1,0 +1,20 @@
+[deps]
+musl
+
+[main]
+filesize=317375
+sha512=c0920c783b222478cf9609c737cc864b213f82b855d907b1cab77bb8b8135984cc8d67f27ef59533ad231ff9d8fd59bc5d1e6e6dda251d7c6466ea16af9bf339
+
+[mirrors]
+https://github.com/downloads/bobertlo/openbsd-pdksh/openbsd-pdksh-20120417.tar.bz2
+
+[build]
+echo "CC = $CC" >> config.mk
+sed -i -e 's#/usr/local##g' config.mk
+
+make -j$MAKE_THREADS || exit 1
+
+mkdir -p "$butch_install_dir/share/man/man1"
+mkdir -p "$butch_install_dir/bin"
+make DESTDIR="$butch_install_dir" install || exit 1
+
