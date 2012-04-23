@@ -1,0 +1,24 @@
+pkgname=bootstrap-gcc
+pkgver=3.4.6
+sources="http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2"
+extract="gcc-core-3.4.6.tar.bz2"
+tardir="gcc-3.4.6"
+
+build() {
+	cd $srcdir/$tardir
+	sed -i 's@O_CREAT@O_CREAT, 0770@' gcc/collect2.c
+	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
+	sed -i "s@/lib/ld-linux.so.[12]@$BS/lib/ld-musl-i386.so.1@" gcc/config/i386/linux.h
+	sed -i "s@/lib/ld-linux.so.[12]@$BS/lib/ld-musl-i386.so.1@" gcc/config/i386/linux64.h
+	sed -i "s@/lib64/ld-linux-x86-64.so.2@$BS/lib/ld-musl-x86_64.so.1@" gcc/config/i386/linux64.h
+	./configure "--prefix=$BS" --disable-bootstrap --disable-shared --disable-multilib --disable-nls 
+	make LDFLAGS="-static" -j$MAKE_THREADS
+}
+
+package() {
+	cd "$srcdir/$tardir"
+	make DESTDIR="$pkgdir/" install-gcc
+	libgcc_eh=`"$pkgdir/$BS/bin/gcc" -print-libgcc-file-name | sed -e 's/libgcc/&_eh/'` || exit 1
+	ln -s libgcc.a "$libgcc_eh"
+	[ "$A" = x86_64 ] && mv $BS/lib64/* $BS/lib/ || true
+}

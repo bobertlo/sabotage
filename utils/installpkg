@@ -1,0 +1,44 @@
+#!/bin/sh
+
+rootdir=/
+logdir=/var/log
+CWD=`pwd`
+
+usage() {
+	echo "usage: installpkg [-r destdir] [-l logdir] package.tbz"
+	exit 1
+}
+
+error() {
+	echo "$1"
+	exit 1
+}
+
+while [ 0 ]; do
+	if [ "$1" = "-r" ]; then
+		rootdir="$2"
+		shift 2
+	elif [ "$1" = "-l" ]; then
+		logdir="$2"
+		shift 2
+	else
+		break
+	fi
+done
+
+echo "entering $rootdir"
+cd "$rootdir" || error "cannot cd to $rootdir"
+mkdir -p "$rootdir/$logdir/packages"
+while [ 0 ]; do
+	if [ "$1" = "" ]; then 
+		break
+	fi
+	pkgfile="$1"
+	if [ `expr match "/*" "$pkgfile"` -gt 0 ]; then
+		pkgfile="$CWD/$pkgfile"
+	fi
+	[ -e "$pkgfile" ] || error "$pkgfile: file not found"
+	echo "extracting $pkgfile (logging to $rootdir/$logdir/packages/"
+	tar xvmf "$pkgfile" >"$rootdir/$logdir/packages/`basename $1 .tbz`" || exit 1
+	shift
+done

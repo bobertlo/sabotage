@@ -1,18 +1,17 @@
 #!/bin/sh
 # recipes - generate mkfile from package recipes
 
-for f in stage1/*[^~] pkg/*[^~] xorg/*[^~]; do
+for f in stage0/*; do
   DIR=${f%%/*}
-  PKG=${f##*/}
+  PKG=$f
   echo $DIR:V: $PKG
-  echo $PKG:V: rebuild-$PKG
+  echo $PKG:V: "$R/var/logs/packages/$PKG"
   echo rebuild-$PKG:V:
   echo "  ##### $f"
   if [ -z "$N" ]; then
     echo "  . config"
-    echo "  . utils"
     [ -n "$V" ] && echo "  set -x"
-    echo "  . $f"
+    echo "  makepkg -C $f -c \$D/makepkg.stage0.config"
     echo
   fi
 done

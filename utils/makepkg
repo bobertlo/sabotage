@@ -1,0 +1,133 @@
+#!/bin/sh
+
+[ ! -z $MAKEPKGDIR ] || MAKEPKGDIR=$SABOTAGE_BUILDDIR
+# some default values
+srcdir=$MAKEPKGDIR/build
+distdir=$MAKEPKGDIR/dist
+logdir=$MAKEPKGDIR/log
+pkgdir=$MAKEPKGDIR/root
+outdir=$MAKEPKGDIR/pkg
+configfile=/etc/makepkg.conf
+buildfile=PKGBUILD
+makethreads=1
+
+usage() {
+	echo "usage: makepkg [-C dir] [-c config] [-f pkgfile]"
+	exit 1
+}
+
+error() {
+	echo $1
+	exit 1
+}
+
+loadfile() {
+	f=$1
+	cd $origin
+	if [ -e "$f" ]; then
+		[ `expr match '$f' '/*'` ] || f="./$f"
+		echo "loading $f"
+		. $f
+	else
+		echo "warning: $f: file not found"
+	fi
+}
+
+makedirs() {
+	[ -e $srcdir ] || mkdir -p $srcdir
+	[ -e $logdir ] || mkdir -p $logdir
+	[ -e $pkgdir ] || mkdir -p $pkgdir
+	[ -e $outdir ] || mkdir -p $outdir
+	[ -e $distdir ] || mkdir -p $distdir
+}
+
+fetch() {
+	for f in $sources; do
+		fname=`basename $f`
+		if [ -e "$distdir/$fname" ]; then
+			echo "$fname: found"
+		else
+			echo "$fname: missing ... downloading"
+			wget -O "$distdir/$fname" "$f"
+		fi
+	done
+}
+
+verify() {
+	cd $distdir
+	echo "verifying dist file integrity"
+	sha512sum -c $origin/SHA512SUMS || error "sha512sum check failed, aborting"
+}
+
+extract() {
+	for f in $extract; do
+		cd $srcdir
+		echo "extracting $f"
+		[ -e $tardir ] && rm -rf $tardir
+		tar xf "$distdir/$f" || error "error extracting $distdir/$f"
+	done
+}
+
+buildtbz() {
+	cd $pkgdir
+	outfile="$outdir/$pkgname-$pkgver.tbz"
+	echo "creating $outfile"
+	tar jvcf "$outfile" * || error "error creating tarball"
+}
+
+# parse arguments
+while [ ! -z $1 ]; do
+	case "$1" in
+	-C)
+		echo "entering directory $2"
+		cd "$2"
+		shift ;;
+	-c)
+		configfile="$2"
+		shift ;;
+	-f)
+		buildfile="$2"
+		shift ;;
+	*)
+		usage ;;
+	esac
+	shift 
+done
+origin=`pwd`
+
+# load configuration file
+loadfile "$configfile"
+makedirs
+
+# load PKGBUILD
+loadfile "$buildfile"
+[ ! -z $A ] || error "invalid configuration: A is required"
+[ ! -z $pkgname ] || error "invalid package: pkgname is required"
+[ ! -z $pkgver ] || error "invalid package: pkgver is required"
+[ ! -z $pkgname ] || error "invalid package: pkgname is required"
+[ ! $tardir ] && tardir="$pkgname-$pkgver"
+[ ! $extract ] && extract=`basename "$sources"`
+
+# fetch package files
+fetch
+
+# verify checksums
+verify
+
+# extract package files
+rm -rf "$srcdir/$tardir"
+extract
+
+# build package
+echo "running build script"
+cd $srcdir
+build
+
+# install package to $pkgdir
+rm -rf "$pkgdir"
+mkdir -p "$pkgdir"
+cd $origin
+package
+
+# make package tarball
+buildtbz

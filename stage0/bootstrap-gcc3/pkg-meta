@@ -1,0 +1,5 @@
+pkgname="bootstrap-gcc"
+pkgver=3.4.6
+sources="http://ftp.gnu.org/gnu/gcc/gcc-3.4.6/gcc-core-3.4.6.tar.bz2"
+extract="gcc-core-3.4.6.tar.bz2"
+tardir="gcc-3.4.6"
