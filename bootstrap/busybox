@@ -1,0 +1,16 @@
+pkgver=1.19.2
+download http://www.busybox.net/downloads/busybox-1.19.2.tar.bz2
+rm -rf "$S/busybox-$pkgver"
+extract "busybox-$pkgver.tar.bz2"
+
+cd $S/busybox-$pkgver
+cp $K/busybox.stage0.config .config
+patch -p1 < $K/busybox.patch
+make LDFLAGS=-static CFLAGS_busybox="-Wl,-z,muldefs -Werror-implicit-function-declaration" HOSTCC=gcc CC=$BS/bin/musl-gcc -j$MAKE_THREADS
+
+mkdir -p /$BS/bin
+cp busybox /$BS/bin
+cd /$BS/bin
+for f in $(./busybox --list); do
+	ln -sf busybox $f
+done

@@ -1,0 +1,10 @@
+pkgver=0.8.9
+download http://www.etalabs.net/musl/releases/musl-0.8.9.tar.gz
+rm -rf "$S/musl-$pkgver"
+extract "musl-$pkgver.tar.gz"
+cd "$S/musl-$pkgver"
+
+cp "$K/musl.stage0.config.mak" config.mak
+make "CC=$BS/bin/gcc" "-j$MAKE_THREADS"
+make install
+sed -i 's:libc_prefix=".*":libc_prefix="'$BS'":' "$BS/bin/musl-gcc"

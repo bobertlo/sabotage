@@ -10,7 +10,7 @@ sha512=6676680129dc24020f35cd2497f5fa525b19a4edaddb95c57ae74343b6a1160509b969043
 http://www.etalabs.net/musl/releases/musl-0.8.10.tar.gz
 
 [build]
-cp "$K/musl.config.mak" config.mak
+cp "$K/musl.stage1.config.mak" config.mak
 #patch -p1 < "$K/musl-0.8.9-XXX.patch" || exit 1
 
 

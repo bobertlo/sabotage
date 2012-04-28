@@ -1,0 +1,10 @@
+pkgver=2.22
+download http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
+rm -rf "$S/binutils-$pkgver"
+extract "binutils-$pkgver.tar.bz2"
+cd "$S/binutils-$pkgver"
+
+CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" ./configure --prefix="/$BS" --disable-nls --disable-shared
+echo "#define __pid_t int" >include/features.h
+make CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" -j$MAKE_THREADS
+make tooldir="/$BS" install-gas install-ld install-binutils

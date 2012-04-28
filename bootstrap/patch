@@ -1,0 +1,12 @@
+pkgname=patch
+pkgver=2.6.1
+pkgdisturl=ftp://ftp.gnu.org/gnu/patch/patch-2.6.1.tar.gz
+
+download "$pkgdisturl"
+rm -rf "$S/patch-$pkgver"
+extract "patch-$pkgver.tar.gz"
+cd "$S/patch-$pkgver"
+
+CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" ./configure --prefix="/$BS"
+CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" make -j$MAKE_THREADS
+make install

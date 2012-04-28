@@ -10,6 +10,7 @@ export SABOTAGE_BUILDDIR="/tmp/sabotage"
 export S="$SABOTAGE_BUILDDIR"/src
 export R="$SABOTAGE_BUILDDIR"/root
 export LOGPATH="$S/logs"
+export BS="/tmp/bootstrap"
 
 ## set your arch, or try `uname -m`
 export A=i386

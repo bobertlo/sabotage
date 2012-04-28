@@ -1,0 +1,10 @@
+pkgver=3.82
+download http://ftp.gnu.org/gnu/make/make-3.82.tar.bz2
+rm -rf "$S/make-$pkgver"
+extract "make-$pkgver.tar.bz2"
+cd "$S/make-$pkgver"
+
+CC="/$BS/bin/musl-gcc -static" ./configure --prefix="/$BS" --disable-nls
+make -j$MAKE_THREADS CC="/$BS/bin/musl-gcc -static" CFLAGS=-D__BEOS__
+make install
+
