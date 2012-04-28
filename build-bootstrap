@@ -1,0 +1,19 @@
+#!/bin/sh
+
+H=`pwd`
+
+. ./config
+. ./utils/utils
+
+set -e
+
+mkdir -p $C $S $BS
+
+. $H/bootstrap/gcc
+. $H/bootstrap/musl
+. $H/bootstrap/busybox
+. $H/bootstrap/binutils
+. $H/bootstrap/make
+. $H/bootstrap/patch
+. $H/bootstrap/mk
+. $H/bootstrap/butch
