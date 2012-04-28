@@ -1,0 +1,53 @@
+#!/bin/sh
+
+usage() {
+	echo "usage: chroot (mount|enter|umount)"
+	exit 1
+}
+
+if [ $# = 0 ]; then
+	usage
+fi
+
+uid="$(id -u)"
+if [ "$uid" != "0" ]; then
+    printf -- "need to be root. please enter password.\n"
+    su -c "$0 $1"
+    exit $?
+fi
+
+export H="$PWD"
+. "$H"/config
+
+domount() {
+	mkdir -p "$R"/src/tarballs
+	mkdir -p "$R/$BS"
+	mount --rbind /dev "$R"/dev
+	mount --rbind /proc "$R"/proc
+	mount --bind "$C" "$R"/src/tarballs
+	mount --bind "$BS" "$R/$BS"
+}
+
+doenter() {
+	echo "Entering chroot..."
+	chroot "$R" $BS/bin/env -i PATH=/bin:/local/bin:$BS/bin\
+	    HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
+	    $BS/bin/sh --login
+}
+
+doumount() {
+	umount "$R"/src/tarballs
+	umount "$R"/dev/pts
+	umount "$R"/dev/shm
+	umount "$R"/dev
+	umount "$R"/proc
+}
+
+case "$1" in
+	mount) domount ;;
+	enter) doenter ;;
+	umount) doumount ;;
+esac
+
+echo
+
