@@ -1,0 +1,16 @@
+#!/bin/sh
+
+uid="$(id -u)"
+if [ "$uid" != "0" ]; then
+    printf -- "need to be root. please enter password.\n"
+    su -c "$0 $1"
+    exit $?
+fi
+
+. "$H"/config
+
+echo "Entering chroot..."
+chroot "$R" $BS/bin/env -i PATH=/bin:/local/bin:$BS/bin\
+    HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
+    $BS/bin/sh --login
+

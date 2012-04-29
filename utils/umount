@@ -1,0 +1,10 @@
+#!/bin/sh
+
+. "$H"/config
+
+umount "$R/src/tarballs"
+umount "$R/dev/pts"
+umount "$R/dev/shm"
+umount "$R/dev"
+umount "$R/proc"
+umount "$R/$BS"

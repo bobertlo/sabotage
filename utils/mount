@@ -1,0 +1,17 @@
+#!/bin/sh
+
+uid="$(id -u)"
+if [ "$uid" != "0" ]; then
+    printf -- "need to be root. please enter password.\n"
+    su -c "$0 $1"
+    exit $?
+fi
+
+. "$H"/config
+
+mkdir -p "$R/src/tarballs" "$R/$BS" "$R/dev" "$R/proc"
+mount --rbind /dev "$R"/dev
+mount --rbind /proc "$R"/proc
+mount --bind "$C" "$R"/src/tarballs
+mount --bind "$BS" "$R/$BS"
+
