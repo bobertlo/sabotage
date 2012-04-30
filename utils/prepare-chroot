@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ ! "$H" -o ! "$R" -o ! "$K" ] ; then
+	echo "some required env variables not set. run . ./config before executing this"
+	exit 1
+fi
+
+mkdir -p "$R"
+cd "$R"
+mkdir -p bin dev etc proc sys src tmp "$R/$BS"
+cp /etc/resolv.conf "$R/etc"
+chmod 1777 tmp
+
+ln -sf /proc/mounts "$R"/etc/mtab
+[ -e "$R/bin/sh" ] || ln -s "$BS/bin/busybox" "$R/bin/sh"

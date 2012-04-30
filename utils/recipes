@@ -1,18 +1,27 @@
 #!/bin/sh
-# recipes - generate mkfile from package recipes
 
-for f in stage1/*[^~] pkg/*[^~] xorg/*[^~]; do
-  DIR=${f%%/*}
-  PKG=${f##*/}
-  echo $DIR:V: $PKG
-  echo $PKG:V: rebuild-$PKG
-  echo rebuild-$PKG:V:
-  echo "  ##### $f"
-  if [ -z "$N" ]; then
-    echo "  . config"
-    echo "  . utils"
-    [ -n "$V" ] && echo "  set -x"
-    echo "  . $f"
-    echo
-  fi
+set -e
+
+for f in core/*; do
+	. $f/pkg-info
+	DIR=${f%%/*}
+	PKG=${f##*/}
+	FULLNAME=$pkgname-$pkgver-$A-$pkgrev
+
+	echo "#### $PKG"
+	echo $DIR:V: $PKG
+	echo $PKG:V: $P/$FULLNAME.tbz
+	for d in $pkgbdeps; do
+		echo rebuild-$PKG:V: install-$d
+	done
+	for d in $pkgdeps; do
+		echo install-$PKG:V: install-$d
+	done
+	echo install-$PKG:V: $R/var/log/packages/$FULLNAME
+	echo $R/var/log/packages/$FULLNAME: $P/$FULLNAME.tbz
+	echo "  installpkg -r $R $P/$FULLNAME.tbz"
+	echo $P/$FULLNAME.tbz:
+	echo "  buildpkg $f"
+	echo rebuild-$PKG:V:
+	echo "  buildpkg $f"
 done

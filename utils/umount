@@ -1,5 +1,12 @@
 #!/bin/sh
 
+uid="$(id -u)"
+if [ "$uid" != "0" ]; then
+    printf -- "need to be root. please enter password.\n"
+    su -c "$0 $1"
+    exit $?
+fi
+
 . "$H"/config
 
 umount "$R/src/tarballs"
@@ -8,3 +15,4 @@ umount "$R/dev/shm"
 umount "$R/dev"
 umount "$R/proc"
 umount "$R/$BS"
+

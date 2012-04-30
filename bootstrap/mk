@@ -8,7 +8,7 @@ echo "PREFIX=/$BS" >>config.mk
 sed -i 's/__linux__/__not_linux__/;s/__sun__/__linux__/' lib9/dirread.c
 sed -i '/sys.termios.h/d' lib9/readcons.c
 
-make -C lib9
-make -C mk
+make -j$MAKE_THREADS -C lib9
+make -j$MAKE_THREADS -C mk
 
 make -C mk install

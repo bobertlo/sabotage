@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+iroot=/
+
+while [ 0 ]; do
+	if [ "$1" = "-r" ]; then
+		iroot=$2
+		shift 2
+	else
+		break
+	fi
+done
+
+if ! tar tf "$1" >/dev/null ; then
+	echo "$1: file invalid!"
+	exit 1
+fi
+
+cd $iroot
+mkdir -p $iroot/var/log/packages
+tar xvf "$1" > $iroot/var/log/packages/`basename "$1" .tbz`

@@ -1,9 +1,6 @@
 #!/bin/sh
 
-H=`pwd`
-
-. ./config
-. ./utils/utils
+. "$H"/utils/utils
 
 set -e
 
@@ -13,7 +10,9 @@ mkdir -p $C $S $BS
 . $H/bootstrap/musl
 . $H/bootstrap/busybox
 . $H/bootstrap/binutils
+. $H/bootstrap/m4
 . $H/bootstrap/make
 . $H/bootstrap/patch
 . $H/bootstrap/mk
-. $H/bootstrap/butch
+
+. $H/utils/prepare-chroot

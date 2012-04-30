@@ -1,0 +1,10 @@
+pkgver=1.4.16
+download http://ftp.gnu.org/gnu/m4/m4-$pkgver.tar.bz2
+rm -rf $S/m4-$pkgver
+extract m4-$pkgver.tar.bz2
+cd $S/m4-$pkgver
+
+patch -p1 <$K/m4-hack-gnulib.patch
+CC="$BS/bin/musl-gcc -static" ./configure -C --prefix=$BS
+make -j$MAKE_THREADS
+make install

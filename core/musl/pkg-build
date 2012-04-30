@@ -1,0 +1,15 @@
+download http://www.etalabs.net/musl/releases/musl-0.8.10.tar.gz
+rm -rf "$S/musl-0.8.10"
+extract musl-0.8.10.tar.gz
+cd "$S/musl-0.8.10"
+
+cp "$H/core/musl/config.mak" .
+
+TC_PATH=$R/opt/devel
+
+make CC="$BS/bin/gcc" -j$MAKE_THREADS
+
+mkdir -p /tmp/package-musl
+make DESTDIR="/tmp/package-musl" install
+cd /tmp/package-musl
+tar jcvf "$P/musl-$pkgver-$A-$pkgrev.tbz" *
