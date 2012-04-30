@@ -1,0 +1,13 @@
+download http://www.kernel.org/pub/linux/kernel/v3.0/linux-3.0.tar.bz2
+rm -rf "$S/linux-$pkgver"
+extract linux-$pkgver.tar.bz2
+cd "$S/linux-$pkgver"
+
+patch -p1 < "$origin/linux-noperl-headers.patch"
+make mrproper
+mkdir -p "$P/package-linux-headers/opt/devel"
+make  INSTALL_HDR_PATH=$P/package-linux-headers/opt/devel \
+	ARCH=$A HOSTCFLAGS=-D_GNU_SOURCE headers_install
+	
+cd "$P/package-linux-headers"
+tar jvcf "$P/linux-headers-$pkgver-$A-$pkgrev.tbz" *

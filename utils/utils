@@ -33,3 +33,15 @@ extract() {
      cd "$S"
      tar xf "$C/$1"
 }
+
+buildpkg() {
+	pkgname=
+	pkgver= 
+	pkgrev=  
+	pkgdeps= 
+	pkgbdeps=    
+	origin=`pwd`/"$1"
+	. "$H"/config     
+	. "$1"/pkg-info 
+	. "$1"/pkg-build
+}

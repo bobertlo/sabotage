@@ -1,0 +1,19 @@
+download http://www.busybox.net/downloads/busybox-1.19.4.tar.bz2
+rm -rf "$S/busybox-$pkgver"
+extract "busybox-$pkgver.tar.bz2"
+cd "$S/busybox-$pkgver"
+
+echo `pwd`
+cp "$origin/busybox.config" .config
+patch -p1 < "$origin/busybox.patch"
+patch -p1 < "$origin/busybox-patch.patch"
+
+sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
+
+make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" -j$MAKE_THREADS \
+	HOSTCFLAGS="-D_GNU_SOURCE -I/opt/devel/include -L/opt/devel/lib" \
+	
+mkdir -p "$P/package-busybox/bin"
+cp busybox "$P/package-busybox/bin"
+mkdir -p "$P/package-busybox/install"
+cp $origin/pkg-install "$P/package-busybox/install"

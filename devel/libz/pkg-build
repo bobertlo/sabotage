@@ -1,0 +1,17 @@
+download http://zlib.net/zlib-1.2.6.tar.gz
+rm -rf "$S/zlib-$pkgver"
+extract zlib-$pkgver.tar.gz
+cd "$S/zlib-$pkgver"
+
+CC="$CC -static -D_GNU_SOURCE" ./configure --prefix=/opt/devel
+sed -i 's,mktemp -u,mktemp,g' Makefile
+make -j$MAKE_THREADS libz.a
+
+ranlib libz.a
+mkdir -p "$P/package-libz/opt/devel/lib"
+install -m664 libz.a "$P/package-libz/opt/devel/lib/"
+mkdir -p "$P/package-libz/opt/devel/include"
+install -m664 zlib.h zconf.h "$P/package-libz/opt/devel/include"
+cd "$P/package-libz/"
+tar jvcf "$P/libz-$pkgver-$A-$pkgrev.tbz" *
+

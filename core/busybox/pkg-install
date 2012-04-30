@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+cd "$1/bin"
+for i in `./busybox --list`; do
+	if [ ! -e $i ]; then
+		ln -s busybox $i
+	fi
+done

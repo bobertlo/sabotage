@@ -2,7 +2,7 @@
 
 set -e
 
-for f in core/*; do
+for f in devel/*; do
 	. $f/pkg-info
 	DIR=${f%%/*}
 	PKG=${f##*/}
@@ -12,7 +12,7 @@ for f in core/*; do
 	echo $DIR:V: $PKG
 	echo $PKG:V: $P/$FULLNAME.tbz
 	for d in $pkgbdeps; do
-		echo rebuild-$PKG:V: install-$d
+		echo $P/$FULLNAME.tbz:V: install-$d
 	done
 	for d in $pkgdeps; do
 		echo install-$PKG:V: install-$d
@@ -21,7 +21,6 @@ for f in core/*; do
 	echo "  installpkg -r $R $P/$FULLNAME.tbz"
 	echo install-$PKG:V: $R/var/log/packages/$FULLNAME
 	echo $P/$FULLNAME.tbz:
-	echo "  buildpkg $f"
-	echo rebuild-$PKG:V:
+	echo "  . utils/utils"
 	echo "  buildpkg $f"
 done

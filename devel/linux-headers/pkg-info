@@ -1,0 +1,5 @@
+pkgname=linux-headers
+pkgver=3.0
+pkgrev=0
+pkgdeps=
+pkgbdeps=

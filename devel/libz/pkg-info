@@ -1,0 +1,5 @@
+pkgname=libz
+pkgver=1.2.6
+pkgrev=0
+pkgdeps=
+pkgbdeps=

@@ -19,3 +19,7 @@ fi
 cd $iroot
 mkdir -p $iroot/var/log/packages
 tar xvf "$1" > $iroot/var/log/packages/`basename "$1" .tbz`
+
+if [ -x $iroot/install/pkg-install ]; then
+	$iroot/install/pkg-install $iroot
+fi
