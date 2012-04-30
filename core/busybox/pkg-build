@@ -3,17 +3,19 @@ rm -rf "$S/busybox-$pkgver"
 extract "busybox-$pkgver.tar.bz2"
 cd "$S/busybox-$pkgver"
 
-echo `pwd`
 cp "$origin/busybox.config" .config
 patch -p1 < "$origin/busybox.patch"
 patch -p1 < "$origin/busybox-patch.patch"
-
 sed -i 's,__inline,,' ./scripts/kconfig/zconf.hash.c_shipped
 
+CC="musl-gcc -D_GNU_SOURCE"
 make KBUILD_VERBOSE=1 CC="$CC" HOSTCC="$HOSTCC" -j$MAKE_THREADS \
-	HOSTCFLAGS="-D_GNU_SOURCE -I/opt/devel/include -L/opt/devel/lib" \
+	HOSTCFLAGS="-D_GNU_SOURCE" \
 	
 mkdir -p "$P/package-busybox/bin"
 cp busybox "$P/package-busybox/bin"
 mkdir -p "$P/package-busybox/install"
 cp $origin/pkg-install "$P/package-busybox/install"
+
+cd "$P/package-busybox"
+tar jvcf "$P/busybox-$pkgver-$A-$pkgrev.tbz" *

@@ -4,6 +4,7 @@ extract linux-$pkgver.tar.bz2
 cd "$S/linux-$pkgver"
 
 patch -p1 < "$origin/linux-noperl-headers.patch"
+patch -p1 < "$origin/linux-ubi.patch"
 make mrproper
 mkdir -p "$P/package-linux-headers/opt/devel"
 make  INSTALL_HDR_PATH=$P/package-linux-headers/opt/devel \

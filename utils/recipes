@@ -2,7 +2,7 @@
 
 set -e
 
-for f in devel/*; do
+for f in core/* devel/*; do
 	. $f/pkg-info
 	DIR=${f%%/*}
 	PKG=${f##*/}
