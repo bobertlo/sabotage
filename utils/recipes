@@ -13,14 +13,13 @@ for f in core/*; do
 	echo $PKG:V: $P/$FULLNAME.tbz
 	for d in $pkgbdeps; do
 		echo rebuild-$PKG:V: install-$d
-		echo $P/$FULLNAME.tbz: install-$d
 	done
 	for d in $pkgdeps; do
 		echo install-$PKG:V: install-$d
 	done
-	echo $R/var/log/packages/$FULLNAME: install-$PKG
-	echo install-$PKG:V: $P/$FULLNAME.tbz
+	echo $R/var/log/packages/$FULLNAME: $P/$FULLNAME.tbz
 	echo "  installpkg -r $R $P/$FULLNAME.tbz"
+	echo install-$PKG:V: $R/var/log/packages/$FULLNAME
 	echo $P/$FULLNAME.tbz:
 	echo "  buildpkg $f"
 	echo rebuild-$PKG:V:

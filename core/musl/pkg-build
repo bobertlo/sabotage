@@ -7,7 +7,7 @@ cp "$H/core/musl/config.mak" .
 
 TC_PATH=$R/opt/devel
 
-make CC="$BS/bin/gcc" -j$MAKE_THREADS
+make CC="gcc" -j$MAKE_THREADS
 
 mkdir -p "$P/package-musl"
 make DESTDIR="$P/package-musl" install
