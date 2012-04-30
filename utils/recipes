@@ -18,8 +18,8 @@ for f in core/*; do
 	for d in $pkgdeps; do
 		echo install-$PKG:V: install-$d
 	done
-	echo install-$PKG:V: $R/var/log/packages/$FULLNAME
-	echo $R/var/log/packages/$FULLNAME: $P/$FULLNAME.tbz
+	echo $R/var/log/packages/$FULLNAME: install-$PKG
+	echo install-$PKG:V: $P/$FULLNAME.tbz
 	echo "  installpkg -r $R $P/$FULLNAME.tbz"
 	echo $P/$FULLNAME.tbz:
 	echo "  buildpkg $f"

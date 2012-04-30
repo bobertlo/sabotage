@@ -14,5 +14,3 @@ mkdir -p $C $S $BS
 . $H/bootstrap/make
 . $H/bootstrap/patch
 . $H/bootstrap/mk
-
-. $H/utils/prepare-chroot

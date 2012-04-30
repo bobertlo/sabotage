@@ -25,5 +25,5 @@ export HOSTCC=gcc
 
 ## set your core count for faster builds, this is passed as -jXXX to make
 ## stage0 builds in less than 2minutes using -j9 on an AMD 8core
-export MAKE_THREADS=1
+export MAKE_THREADS=4
 

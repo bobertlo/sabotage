@@ -3,12 +3,12 @@ rm -rf "$S/gmp-$pkgver"
 extract gmp-$pkgver.tar.bz2
 cd "$S/gmp-$pkgver"
 
-CC="$CC -static" ./configure -C --prefix=/opt/devel --disable-shared
+CC="$CC -static -L/opt/devel/lib -I/opt/devel/include" \
+	./configure -C --prefix=/opt/devel --disable-shared
 make -j$MAKE_THREADS
 
-mkdir -p /tmp/package-libgmp
-make DESTDIR="/tmp/package-libgmp" install
-rm -f /tmp/package-libgmp/lib/libgmp.la
-cd /tmp/package-libgmp
+mkdir -p "$P/package-libgmp"
+make DESTDIR="$P/package-libgmp" install
+cd "$P/package-libgmp"
 tar jcvf "$P/libgmp-$pkgver-$A-$pkgrev.tbz" *
 

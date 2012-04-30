@@ -1,5 +1,5 @@
-pkgname=mpc
+pkgname=libmpc
 pkgver=0.9
 pkgrev=0
-pkgdeps=
-pkgbdeps="mpfr"
+pkgdeps=libmpfr
+pkgbdeps=libmpfr

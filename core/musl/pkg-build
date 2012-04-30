@@ -9,7 +9,7 @@ TC_PATH=$R/opt/devel
 
 make CC="$BS/bin/gcc" -j$MAKE_THREADS
 
-mkdir -p /tmp/package-musl
-make DESTDIR="/tmp/package-musl" install
-cd /tmp/package-musl
+mkdir -p "$P/package-musl"
+make DESTDIR="$P/package-musl" install
+cd "$P/package-musl"
 tar jcvf "$P/musl-$pkgver-$A-$pkgrev.tbz" *
