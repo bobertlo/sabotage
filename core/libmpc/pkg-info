@@ -1,0 +1,5 @@
+pkgname=mpc
+pkgver=0.9
+pkgrev=0
+pkgdeps=
+pkgbdeps="mpfr"

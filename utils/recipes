@@ -13,6 +13,7 @@ for f in core/*; do
 	echo $PKG:V: $P/$FULLNAME.tbz
 	for d in $pkgbdeps; do
 		echo rebuild-$PKG:V: install-$d
+		echo $P/$FULLNAME.tbz: install-$d
 	done
 	for d in $pkgdeps; do
 		echo install-$PKG:V: install-$d

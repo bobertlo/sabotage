@@ -1,0 +1,5 @@
+pkgname=libgmp
+pkgver=5.0.2
+pkgrev=0
+pkgdeps=
+pkgbdeps=
