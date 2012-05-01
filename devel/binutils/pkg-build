@@ -4,10 +4,13 @@ extract binutils-$pkgver.tar.bz2
 cd "$S/binutils-$pkgver"
 
 patch -p1 < "$origin/binutils-as-needed.patch"
+sed -i 's/linux-gnu\* |/linux-gnu* | linux-musl* |/' config.sub
 echo "#define __pid_t int" >include/features.h
+
 TC_PATH="$R"/opt/devel
 mkdir -p "$TC_PATH"
-./configure --prefix=/opt/devel --disable-nls --disable-shared
+./configure --prefix=/opt/devel --disable-nls --disable-shared \
+	--host=$A-sabotage-linux-musl --target=$A-sabotage-linux-musl
 make -j$MAKE_THREADS all-binutils all-ld all-gas
 
 PKGDIR="$P/package-binutils"
