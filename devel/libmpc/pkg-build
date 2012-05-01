@@ -3,8 +3,7 @@ rm -rf "$S/mpc-$pkgver"
 extract mpc-$pkgver.tar.gz
 cd "$S/mpc-$pkgver"
 
-CC="$CC -static -L$R/opt/devel/lib -I$R/opt/devel/include" \
-	./configure --prefix=/opt/devel --disable-shared
+./configure --prefix=/opt/devel --disable-shared
 make -j$MAKE_THREADS
 
 PKGDIR="$P/package-libmpc"

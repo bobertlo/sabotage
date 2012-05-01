@@ -3,8 +3,7 @@ rm -rf "$S/mpfr-$pkgver"
 extract mpfr-$pkgver.tar.bz2
 cd "$S/mpfr-$pkgver"
 
-CC="$CC -static -L$R/opt/devel/lib -I$R/opt/devel/include" \
-	./configure --prefix=/opt/devel
+./configure --prefix=/opt/devel --disable-shared
 make -j$MAKE_THREADS
 
 PKGDIR="$P/package-libmpfr"

@@ -1,0 +1,5 @@
+pkgname=gcc
+pkgver=4.5.3
+pkgrev=0
+pkgdeps=
+pkgbdeps="libmusl binutils libgmp libmpfr libmpc libz"

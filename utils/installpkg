@@ -11,15 +11,19 @@ while [ 0 ]; do
 	fi
 done
 
-if ! tar tf "$1" >/dev/null ; then
+if ! tar jtf "$1" >/dev/null ; then
 	echo "$1: file invalid!"
 	exit 1
 fi
 
 cd $iroot
 mkdir -p $iroot/var/log/packages
-tar xvf "$1" > $iroot/var/log/packages/`basename "$1" .tbz`
+tar jxvf "$1" > $iroot/var/log/packages/`basename "$1" .tbz`
 
 if [ -x $iroot/install/pkg-install ]; then
 	$iroot/install/pkg-install $iroot
+fi
+
+if [ -e $iroot/install ]; then
+	rm -rf $iroot/install
 fi

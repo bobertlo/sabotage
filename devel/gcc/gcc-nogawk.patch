@@ -1,0 +1,20 @@
+--- gcc-4.5.3.orig/gcc/config/i386/i386-builtin-types.awk
++++ gcc-4.5.3/gcc/config/i386/i386-builtin-types.awk
+@@ -161,7 +161,7 @@
+     for (i = 0; i < cptr_defs; ++i)
+ 	print "  IX86_BT_" cptr_name[i] ","
+     print "  IX86_BT_LAST_CPTR = IX86_BT_" cptr_name[i-1] "\n}"
+-    attribute_mode(prim_defs + vect_defs + ptr_defs + cptr_defs)
++    #attribute_mode(prim_defs + vect_defs + ptr_defs + cptr_defs)
+     print ";\n\n"
+ 
+     # We can't tabularize the initialization of the primitives, since
+@@ -236,7 +236,7 @@
+     for (i = 0; i < alias_defs; ++i)
+ 	print "  " alias_name[i] ","
+     print "  IX86_BT_LAST_ALIAS = " alias_name[i-1] "\n}"
+-    attribute_mode(func_defs + alias_defs)
++    #attribute_mode(func_defs + alias_defs)
+     print ";\n\n"
+ 
+     # The function types are defined via two tables.  The first contains

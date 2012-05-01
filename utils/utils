@@ -34,7 +34,7 @@ extract() {
      tar xf "$C/$1"
 }
 
-buildpkg() {
+rebuildpkg() {
 	pkgname=
 	pkgver= 
 	pkgrev=  
@@ -44,5 +44,16 @@ buildpkg() {
 	origin=`pwd`/"$1"
 	. "$H"/config     
 	. "$1"/pkg-info 
+	echo "building $pkgname-$pkgver-$A-$pkgrev.tbz"
 	. "$1"/pkg-build
+}
+
+buildpkg() {
+	. "$1"/pkg-info
+	pkgfile="$pkgname-$pkgver-$A-$pkgrev.tbz"
+	if [ ! -e "$P/$pkgfile" ]; then
+		rebuildpkg $1
+	else
+		echo "$pkgname: found $P/$pkgfile"
+	fi
 }

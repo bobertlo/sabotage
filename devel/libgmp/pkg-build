@@ -3,8 +3,7 @@ rm -rf "$S/gmp-$pkgver"
 extract gmp-$pkgver.tar.bz2
 cd "$S/gmp-$pkgver"
 
-CC="$CC -static -L/opt/devel/lib -I/opt/devel/include" \
-	./configure -C --prefix=/opt/devel --disable-shared
+./configure --prefix=/opt/devel --disable-shared
 make -j$MAKE_THREADS
 
 PKGDIR="$P/package-libgmp"
