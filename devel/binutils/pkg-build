@@ -1,0 +1,16 @@
+download http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.bz2
+rm -rf "$S/binutils-$pkgver"
+extract binutils-$pkgver.tar.bz2
+cd "$S/binutils-$pkgver"
+
+patch -p1 < "$origin/binutils-as-needed.patch"
+echo "#define __pid_t int" >include/features.h
+TC_PATH="$R"/opt/devel
+mkdir -p "$TC_PATH"
+./configure --prefix=/opt/devel --disable-nls --disable-shared
+make -j$MAKE_THREADS all-binutils all-ld all-gas
+
+PKGDIR="$P/package-binutils"
+make DESTDIR="$PKGDIR" install-binutils install-ld install-gas
+cd "$PKGDIR"
+tar jvcf "$P/binutils-$pkgver-$A-$pkgrev.tbz" *

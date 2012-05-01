@@ -7,8 +7,10 @@ CC="$CC -static -L/opt/devel/lib -I/opt/devel/include" \
 	./configure -C --prefix=/opt/devel --disable-shared
 make -j$MAKE_THREADS
 
-mkdir -p "$P/package-libgmp"
-make DESTDIR="$P/package-libgmp" install
-cd "$P/package-libgmp"
+PKGDIR="$P/package-libgmp"
+mkdir -p "$PKGDIR"
+make DESTDIR="$PKGDIR" install
+rm -f "$PKGDIR/opt/devel/lib/libgmp.la"
+cd "$PKGDIR"
 tar jcvf "$P/libgmp-$pkgver-$A-$pkgrev.tbz" *
 

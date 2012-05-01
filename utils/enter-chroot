@@ -10,7 +10,7 @@ fi
 . "$H"/config
 
 echo "Entering chroot..."
-chroot "$R" $BS/bin/env -i PATH=/local/bin:/bin:/opt/toolchain/bin:$BS/bin\
+chroot "$R" $BS/bin/env -i PATH=/local/bin:/bin:/opt/devel/bin:$BS/bin\
     HOME=/root TERM="$TERM" PS1='\u:\w$ ' \
     $BS/bin/sh --login
 

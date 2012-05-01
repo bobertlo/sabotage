@@ -6,6 +6,9 @@ cd "$S/mpc-$pkgver"
 CC="$CC -static -L$R/opt/devel/lib -I$R/opt/devel/include" \
 	./configure --prefix=/opt/devel --disable-shared
 make -j$MAKE_THREADS
-make DESTDIR="$P/package-libmpc" install
-cd $P/package-libmpc
+
+PKGDIR="$P/package-libmpc"
+make DESTDIR="$PKGDIR" install
+rm -f "$PKGDIR/opt/devel/lib/libmpc.la"
+cd "$PKGDIR"
 tar jvcf "$P/libmpc-$pkgver-$A-$pkgrev.tbz" *

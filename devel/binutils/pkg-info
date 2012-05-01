@@ -1,0 +1,5 @@
+pkgname=binutils
+pkgver=2.22
+pkgrev=0
+pkgdeps=
+pkgbdeps=

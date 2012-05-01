@@ -2,4 +2,4 @@ pkgname=busybox
 pkgver=1.19.4
 pkgrev=0
 pkgdeps=
-pkgbdeps="libmusl linux-headers"
+pkgbdeps="linux-headers"

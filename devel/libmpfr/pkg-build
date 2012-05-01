@@ -6,8 +6,11 @@ cd "$S/mpfr-$pkgver"
 CC="$CC -static -L$R/opt/devel/lib -I$R/opt/devel/include" \
 	./configure --prefix=/opt/devel
 make -j$MAKE_THREADS
-make DESTDIR="$P/package-libmpfr" install
-cd "$P/package-libmpfr"
+
+PKGDIR="$P/package-libmpfr"
+make DESTDIR="$PKGDIR" install
+rm -f "$PKGDIR/opt/devel/lib/libmpfr.la"
+cd "$PKGDIR"
 tar jcvf "$P/libmpfr-$pkgver-$A-$pkgrev.tbz" *
 
 
