@@ -9,7 +9,6 @@ fi
 
 . "$H"/config
 
-umount "$R/src/tarballs"
 umount "$R/dev/pts"
 umount "$R/dev/shm"
 umount "$R/dev"

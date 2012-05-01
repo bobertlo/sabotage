@@ -4,7 +4,14 @@ rm -rf "$S/binutils-$pkgver"
 extract "binutils-$pkgver.tar.bz2"
 cd "$S/binutils-$pkgver"
 
-CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" ./configure --prefix="/$BS" --disable-nls --disable-shared
+sed -i 's/linux-gnu\* |/linux-gnu* | linux-musl* |/' config.sub
 echo "#define __pid_t int" >include/features.h
+
+CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" ./configure --prefix="/$BS" \
+	--target="$A-sabotage-linux-musl" --disable-nls --disable-shared
 make CC="/$BS/bin/musl-gcc -static -D_GNU_SOURCE" -j$MAKE_THREADS
 make tooldir="/$BS" install-gas install-ld install-binutils
+
+for i in addr2line c++filt elfedit gprof ld ld.bfd readelf size; do 
+	test -e "$BS/bin/$i" || ln -s "$A-sabotage-linux-musl-$i" "$BS/bin/$i"
+done

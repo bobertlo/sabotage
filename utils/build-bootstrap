@@ -6,10 +6,10 @@ set -e
 
 mkdir -p $C $S $BS
 
-. $H/bootstrap/gcc
 . $H/bootstrap/musl
-. $H/bootstrap/busybox
 . $H/bootstrap/binutils
+. $H/bootstrap/gcc
+. $H/bootstrap/busybox
 . $H/bootstrap/m4
 . $H/bootstrap/make
 . $H/bootstrap/patch

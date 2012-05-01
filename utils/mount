@@ -9,10 +9,9 @@ fi
 
 . "$H"/config
 
-mkdir -p "$R/src/tarballs" "$R/$BS" "$R/dev" "$R/proc"
+mkdir -p "$R/$BS" "$R/dev" "$R/proc"
 mount --rbind /dev "$R"/dev
 mount --rbind /proc "$R"/proc
-mount --bind "$C" "$R"/src/tarballs
 mount --bind "$BS" "$R/$BS"
 mount -o remount,ro "$R/$BS"
 

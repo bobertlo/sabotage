@@ -6,8 +6,14 @@ cd "$S/gcc-$pkgver"
 
 sed -i 's@O_CREAT@O_CREAT, 0770@' gcc/collect2.c
 sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
-./configure "--prefix=$BS" --disable-bootstrap --disable-shared --disable-multilib --disable-nls
+sed -i 's/linux-gnu\* |/linux-gnu* | linux-musl* |/' config.sub
+
+MACH="$A-sabotage-linux-musl"
+CC="$BS/bin/musl-gcc -D_GNU_SOURCE -fgnu89-inline" ./configure "--prefix=$BS" --target="$MACH" --host="$MACH" \
+	--with-newlib --with-headers=no --disable-mudflap --disable-libmudflap \
+	--disable-libssp --disable-libgomp --disable-shared --disable-multilib \
+	--disable-nls --disable-bootstrap
 make LDFLAGS="-static" -j$MAKE_THREADS all-gcc
 make install-gcc
-libgcc_eh=`"/$BS/bin/gcc" -print-libgcc-file-name | sed -e 's/libgcc/&_eh/'`
+libgcc_eh=`"/$BS/bin/$MACH-gcc" -print-libgcc-file-name | sed -e 's/libgcc/&_eh/'`
 ln -sf libgcc.a "$libgcc_eh"

@@ -5,6 +5,5 @@ extract "musl-$pkgver.tar.gz"
 cd "$S/musl-$pkgver"
 
 cp "$K/musl.stage0.config.mak" config.mak
-make "CC=$BS/bin/gcc" "-j$MAKE_THREADS"
+make "-j$MAKE_THREADS"
 make install
-sed -i 's:libc_prefix=".*":libc_prefix="'$BS'":' "$BS/bin/musl-gcc"
