@@ -11,6 +11,7 @@ for f in core/* devel/*; do
 	echo "#### $PKG"
 	echo $DIR:V: $PKG
 	echo rebuild-$DIR:V: rebuild-$PKG
+	echo install-$DIR:V: install-$PKG
 	echo $PKG:V: $P/$FULLNAME.tbz
 	for d in $pkgbdeps; do
 		echo $P/$FULLNAME.tbz:V: install-$d
