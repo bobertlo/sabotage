@@ -1,17 +1,16 @@
-export H=/src
-export K=/src/KEEP
-export S=/src
+export H=$PWD
+export K=$H/KEEP
+export C=$H/tarballs
+export SABOTAGE_BUILDDIR=/tmp/sabotage
+export S="$SABOTAGE_BUILDDIR"/build
+export P="$SABOTAGE_BUILDDIR"/pkg
 export R=/
-export C=/src/tarballs
 export LOGPATH=/src/logs
-#MAKE_THREADS is passed via -j to make and can lead to enormous speed gains
-#set this to the number of availables cores + 1, e.g. 3 for a dualcore
-export MAKE_THREADS=1
-#export this only if you build for ARM, and set the right arch number (4-7)
-#export ARM_ARCH=6
 export CC=gcc
 export HOSTCC=gcc
 
-# this script will copy the config.cache template into the actual builddir
-# you can disable this line and then the configure cache won't get used.
-export BUTCH_BUILD_TEMPLATE="$K/butch_template_configure_cached.txt"
+export A=i386
+#export A=x86_64
+
+export MAKE_THREADS=1
+

@@ -16,14 +16,12 @@ export BS="/tmp/bootstrap"
 ## set your arch, or try `uname -m`
 export A=i386
 #export A=x86_64
-#export A=arm
 
 ## set the compiler environment
 export CC=gcc
 export HOSTCC=gcc
-#export CROSS_COMPILE=armv6l
 
 ## set your core count for faster builds, this is passed as -jXXX to make
 ## stage0 builds in less than 2minutes using -j9 on an AMD 8core
-export MAKE_THREADS=4
+export MAKE_THREADS=1
 
