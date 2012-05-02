@@ -1,4 +1,4 @@
-pkgname=libmusl
+pkgname=musl
 pkgver=0.8.10
 pkgrev=0
 pkgdesc="lightweight c standard library implementation"

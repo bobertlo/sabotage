@@ -1,0 +1,5 @@
+pkgname=perl
+pkgver=5.14.1
+pkgrev=0
+pkgdeps=
+pkgbdeps="musl"

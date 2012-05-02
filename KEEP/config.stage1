@@ -6,8 +6,8 @@ export S="$SABOTAGE_BUILDDIR"/build
 export P="$SABOTAGE_BUILDDIR"/pkg
 export R=/
 export LOGPATH=/src/logs
-export CC=gcc
-export HOSTCC=gcc
+export CC=musl-gcc
+export HOSTCC=musl-gcc
 
 export A=i386
 #export A=x86_64

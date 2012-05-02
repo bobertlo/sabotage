@@ -7,9 +7,9 @@ cp "$origin/config.mak" .
 
 TC_PATH=$R/opt/devel
 
-make CC="gcc" -j$MAKE_THREADS
+make -j$MAKE_THREADS
 
-mkdir -p "$P/package-libmusl"
-make DESTDIR="$P/package-libmusl" install
-cd "$P/package-libmusl"
-tar jcvf "$P/libmusl-$pkgver-$A-$pkgrev.tbz" *
+mkdir -p "$P/package-musl"
+make DESTDIR="$P/package-musl" install
+cd "$P/package-musl"
+tar jcvf "$P/musl-$pkgver-$A-$pkgrev.tbz" *

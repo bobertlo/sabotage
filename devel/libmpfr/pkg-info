@@ -2,4 +2,4 @@ pkgname=libmpfr
 pkgver=3.0.1
 pkgrev=0
 pkgdeps=libgmp
-pkgbdeps=libgmp
+pkgbdeps="libgmp binutils"

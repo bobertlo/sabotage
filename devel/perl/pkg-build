@@ -1,0 +1,27 @@
+download http://www.cpan.org/src/5.0/perl-5.14.1.tar.gz
+rm -rf "$S/perl-$pkgver"
+extract perl-$pkgver.tar.gz
+cd "$S/perl-$pkgver"
+
+PKGDIR="$P/package-perl"
+rm -rf "$PKGDIR"
+
+# devel prefix fix
+sed -i -e 's,/usr/local/include/errno.h,/opt/devel/include/errno.h,g' ext/Errno/Errno_pm.PL
+# FIXME: figure out why this is needed
+sed -i -e 's,cwd,getcwd,' cpan/ExtUtils-MakeMaker/lib/ExtUtils/MakeMaker.pm
+
+echo '/opt/devel/lib/libc.a' | ./Configure -des -Uusedl \
+	-Dcc="$CC" -Accflags='-D_GNU_SOURCE -D_BSD_SOURCE' \
+	-Dprefix=/opt/devel -Dvendorprefix=/opt/devel -Dinstallprefix="$PKGDIR/opt/devel"
+  
+make -j1
+make install
+
+#cd ext/POSIX
+#perl Makefile.PL
+#make
+#make install
+
+cd "$PKGDIR"
+tar jvcf "$P/perl-$pkgver-$A-$pkgrev.tbz" *

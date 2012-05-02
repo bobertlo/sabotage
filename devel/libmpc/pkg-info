@@ -2,4 +2,4 @@ pkgname=libmpc
 pkgver=0.9
 pkgrev=0
 pkgdeps=libmpfr
-pkgbdeps=libmpfr
+pkgbdeps="libmpfr binutils"
